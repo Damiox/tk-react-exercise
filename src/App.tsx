@@ -1,7 +1,8 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import RecipeCreate from "./components/RecipeCreate";
+import RecipeEdit from "./components/RecipeEdit";
 import RecipeList from "./components/RecipeList";
-import RecipeForm from "./components/RecipeForm";
 import NoMatch from "./components/NoMatch";
 
 const App = () => {
@@ -11,8 +12,11 @@ const App = () => {
         <Route exact path="/">
           <RecipeList />
         </Route>
-        <Route exact path="/detail/:id(\d+)">
-          <RecipeForm />
+        <Route exact path="/edit/:id(\d+)">
+          <RecipeEdit />
+        </Route>
+        <Route exact path="/create-recipe">
+          <RecipeCreate />
         </Route>
         <Route exact path="*">
           <NoMatch />
