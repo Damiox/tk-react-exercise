@@ -13,7 +13,6 @@ const StyledRow = styled(Row)`
   padding: 0.5rem;
   border: 0.5px solid black;
   background: azure;
-  font-family: sans-serif;
   font-size: 1.1rem;
   box-shadow: 2px 2px black;
 `

@@ -9,6 +9,7 @@ import NoMatch from './components/NoMatch';
 const GlobalStyle = createGlobalStyle`
   body {
     background: aliceblue;
+    font-family: sans-serif;
   }
 `
 

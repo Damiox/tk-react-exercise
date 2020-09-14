@@ -8,7 +8,6 @@ const Clickable = styled.div`
 const Title = styled.h1`
   text-align: center;
   color: cornflowerblue;
-  font-family: sans-serif;
   font-weight: bold;
 `
 
