@@ -1,15 +1,9 @@
 import React from "react";
 import styled from 'styled-components/macro'
 import useInputState from "../../hooks/useInputState";
+import { Button, TextInput } from '../Design'
 
 const SearchContainer = styled.div`
-`
-
-const TextInput = styled.input`
-  type: text;
-`
-
-const Button = styled.button`
 `
 
 type Props = {
@@ -19,7 +13,7 @@ type Props = {
 const RecipeSearch = ({
   onRecipesFiltered
 } : Props) => {
-  const [name, updateName, _] = useInputState("")
+  const [name, updateName,] = useInputState("")
 
   function onSearch() {
     onRecipesFiltered(name)

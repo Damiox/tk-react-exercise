@@ -15,7 +15,7 @@ const App = () => {
         <Route exact path="/edit/:id(\d+)">
           <RecipeEdit />
         </Route>
-        <Route exact path="/create-recipe">
+        <Route exact path="/create">
           <RecipeCreate />
         </Route>
         <Route exact path="*">

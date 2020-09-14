@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useHistory } from 'react-router'
 import styled from 'styled-components/macro'
-import {StyledIconBase} from '@styled-icons/styled-icon'
 import RecipeSearch from './RecipeSearch'
 import {Edit, Trash} from '@styled-icons/boxicons-regular'
+import { Clickable, Button } from '../Design'
 
 const Title = styled.h1`
   text-align: center;
@@ -29,16 +29,6 @@ const Col = styled.div`
   margin: 0.5rem;
 `
 
-// See https://github.com/styled-icons/styled-icons#base-icon-styles
-const IconStyleWrapper = styled.div`
-  ${StyledIconBase} {
-    color: black;
-  }
-`
-
-const Clickable = styled.div`
-  display: inline;
-`
 
 const RecipeList = () => {
   const initialRecipes = [
@@ -63,10 +53,21 @@ const RecipeList = () => {
     {id: 19, title: 'Hot Dogs Wrap', ingredients: ['ingredient1', 'ingredient2', 'ingredient3']},
     {id: 20, title: 'Tomatoes Dish', ingredients: ['ingredient1', 'ingredient2', 'ingredient3', 'ingredient4']}
   ]
+  const history = useHistory()
   const [recipes, setRecipes] = useState(initialRecipes)
 
   function onRecipesFiltered(name: string) {
-    console.log('onRecipesFiltered: ' + name)
+    if (name) {
+      console.log('onRecipesFiltered: ' + name)
+    }
+  }
+
+  function onRecipeCreateRequested() {
+    history.push('/create')
+  }
+
+  function onRecipeEditRequested(id: number) {
+    history.push(`/edit/${id}`)
   }
 
   function onRecipeDeleteRequested(id: number) {
@@ -79,17 +80,15 @@ const RecipeList = () => {
       <Grid>
         <Row>
           <Col><RecipeSearch onRecipesFiltered={onRecipesFiltered} /></Col>
-          <Col><Link to="/create-recipe">New Recipe</Link></Col>
+          <Col><Button onClick={onRecipeCreateRequested}>New Recipe</Button></Col>
         </Row>
         {
           recipes.map(r =>
             <StyledRow key={r.id}>
               <Col>{r.title}</Col>
               <Col>
-                <IconStyleWrapper>
-                  <Link to={`/edit/${r.id}`}><Edit size={24} /></Link>
-                  <Clickable onClick={() => onRecipeDeleteRequested(r.id)}><Trash size={24} /></Clickable>
-                </IconStyleWrapper>
+                <Clickable onClick={() => onRecipeEditRequested(r.id)}><Edit size={24} /></Clickable>
+                <Clickable onClick={() => onRecipeDeleteRequested(r.id)}><Trash size={24} /></Clickable>
               </Col>
             </StyledRow>
           )
