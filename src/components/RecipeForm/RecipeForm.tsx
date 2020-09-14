@@ -37,8 +37,13 @@ const RecipeForm = ({
 
   }, [recipeData])
 
+  function isInvalid() {
+    return name === "" || description === "" || ingredients.length == 0
+  }
+
   function onSubmit(e: FormEvent) {
     e.preventDefault()
+
     let newRecipeData = {
       ...recipeData,
       name: name,
@@ -62,7 +67,7 @@ const RecipeForm = ({
               <Label htmlFor="name">Name</Label>
             </Col>
             <Col size={0.50}>
-              <TextInput name="name" value={name} onChange={handleName} />
+              <TextInput name="name" value={name} onChange={handleName} required />
             </Col>
           </Row>
           <Row>
@@ -70,7 +75,7 @@ const RecipeForm = ({
               <Label htmlFor="description">Description</Label>
             </Col>
             <Col size={0.50}>
-              <TextArea name="description" value={description} onChange={handleDescription} />
+              <TextArea name="description" value={description} onChange={handleDescription} required />
             </Col>
           </Row>
 
@@ -82,7 +87,7 @@ const RecipeForm = ({
 
           <Row>
             <Col size={1}>
-              <ActionButton>Save</ActionButton>
+              <ActionButton disabled={isInvalid()}>Save</ActionButton>
               <ActionButton onClick={onCancel}>Cancel</ActionButton>
             </Col>
           </Row>
