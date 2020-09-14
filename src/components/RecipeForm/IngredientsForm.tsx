@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components/macro'
 import { Trash } from '@styled-icons/boxicons-regular'
 import { v4 as uuidv4 } from 'uuid';
 import useInputState from "../../hooks/useInputState"
-import { Recipe } from "../../data/types"
 import { Button, Clickable, TextInput } from '../Design/FormDesign'
 import { Grid, Row, Col } from '../Design/GridDesign'
 
@@ -18,14 +17,15 @@ const IngredientItem = styled(Row)`
 `
 
 type Props = {
-  recipe?: Recipe
+  ingredients: Array<string>,
+  updateIngredients: (i: Array<string>) => void
 }
 
 const IngredientsForm = ({
-  recipe
+  ingredients,
+  updateIngredients
 } : Props) => {
   const [newIngredient, updateNewIngredient, resetNewIngredient] = useInputState("")
-  const [ingredients, updateIngredients] = useState(recipe?.ingredients ?? [])
 
   function addIngredient(e: any) {
     e.preventDefault()

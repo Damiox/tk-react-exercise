@@ -1,8 +1,8 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components/macro'
 import { useHistory } from 'react-router'
 import useInputState from "../../hooks/useInputState"
-import { Recipe } from "../../data/types"
+import { RecipeData } from "../../data/types"
 import IngredientsForm from "./IngredientsForm";
 import { Form, Button, Label, TextInput, TextArea } from '../Design/FormDesign'
 import { Grid, Row, Col } from '../Design/GridDesign'
@@ -20,21 +20,28 @@ const ActionButton = styled(Button)`
 `
 
 type Props = {
-  recipe?: Recipe
-  onSave: () => void
+  recipeData?: RecipeData
+  onSave: (r: RecipeData) => void
 }
 
 const RecipeForm = ({
-  recipe,
+  recipeData,
   onSave
 } : Props) => {
   const history = useHistory()
-  const [title, updateTitle,] = useInputState(recipe?.title ?? "")
-  const [description, updateDescription,] = useInputState(recipe?.description ?? "")
+  const [title, updateTitle,] = useInputState(recipeData?.title ?? "")
+  const [description, updateDescription,] = useInputState(recipeData?.description ?? "")
+  const [ingredients, updateIngredients] = useState(recipeData?.ingredients ?? [])
 
   function onSubmit(e: any) {
     e.preventDefault()
-    onSave()
+    let newRecipeData = {
+      ...recipeData,
+      title: title,
+      description: description,
+      ingredients: ingredients
+    }
+    onSave(newRecipeData)
   }
 
   function onCancel() {
@@ -63,7 +70,7 @@ const RecipeForm = ({
             </Col>
           </Row>
 
-          <IngredientsForm recipe={recipe} />
+          <IngredientsForm ingredients={ingredients} updateIngredients={updateIngredients} />
 
           <Row>
             <Col size={0.50}>

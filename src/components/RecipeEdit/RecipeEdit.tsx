@@ -1,28 +1,39 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import styled from "styled-components/macro";
 import RecipeForm from "../RecipeForm";
 import { useParams, useHistory } from 'react-router-dom'
+import { editRecipe, getRecipeDetails } from "../../data/api";
+import { RecipeData } from "../../data/types";
 
 const Title = styled.h1`
   text-align: center;
 `
 
 const RecipeEdit = () => {
-  const { id } = useParams() as { id: string }
+  const id = Number((useParams() as { id: string }).id)
   const history = useHistory()
+  let recipeData;
 
-  function onSave() {
-    console.log('onSave for edit')
-    history.replace('/')
+  async function onSave(recipeData: RecipeData) {
+    try {
+      await editRecipe(id, recipeData)
+      history.replace('/')
+    } catch (err) {
+      console.error(`Error while trying to edit recipe with ID ${id}:`, err)
+    }
   }
 
-  let recipe = {id: 18, title: 'Potato Casserole', description: 'Really good food with potatoes and a lot of stuff',
-    ingredients: ['ingredient1', 'ingredient2', 'ingredient3', 'ingredient4', 'ingredient5', 'ingredient6']}
+  useEffect(() => {
+    async function loadRecipeDetails() {
+      recipeData = await getRecipeDetails(id)
+    }
+    loadRecipeDetails()
+  }, [])
 
   return (
     <>
       <Title>Edit Recipe</Title>
-      <RecipeForm recipe={recipe} onSave={onSave} />
+      <RecipeForm recipeData={recipeData} onSave={onSave} />
     </>
   )
 }

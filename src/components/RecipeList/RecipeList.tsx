@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router'
 import styled from 'styled-components/macro'
 import RecipeSearch from './RecipeSearch'
-import {Edit, Trash} from '@styled-icons/boxicons-regular'
+import { Edit, Trash } from '@styled-icons/boxicons-regular'
 import { Clickable, Button } from '../Design/FormDesign'
 import { Grid, Row, Col } from '../Design/GridDesign'
+import { getRecipes, searchRecipes, deleteRecipe } from "../../data/api";
+import { Recipe } from "../../data/types";
 
 const Title = styled.h1`
   text-align: center;
@@ -18,36 +20,8 @@ const StyledRow = styled(Row)`
 `
 
 const RecipeList = () => {
-  const initialRecipes = [
-    {id: 1, title: 'Vegetable Soup', ingredients: ['ingredient1', 'ingredient2']},
-    {id: 2, title: 'Just Herbs', ingredients: ['ingredient1', 'ingredient2']},
-    {id: 3, title: 'Duck Breast', ingredients: ['ingredient1', 'ingredient2']},
-    {id: 4, title: 'Raspberries and Blackberries', ingredients: ['ingredient1', 'ingredient2']},
-    {id: 5, title: 'Some salad', ingredients: ['ingredient1', 'ingredient2', 'ingredient3', 'ingredient4', 'ingredient5']},
-    {id: 6, title: 'Beef', ingredients: ['ingredient1', 'ingredient2', 'ingredient3', 'ingredient4']},
-    {id: 7, title: 'Chocolate 100', ingredients: ['ingredient1', 'ingredient2', 'ingredient3']},
-    {id: 8, title: 'Potato Casserole', ingredients: ['ingredient1', 'ingredient2', 'ingredient3', 'ingredient4', 'ingredient5', 'ingredient6']},
-    {id: 9, title: 'Hot Dogs Wrap', ingredients: ['ingredient1', 'ingredient2', 'ingredient3']},
-    {id: 10, title: 'Tomatoes Dish', ingredients: ['ingredient1', 'ingredient2', 'ingredient3', 'ingredient4']},
-    {id: 11, title: 'Vegetable Soup', ingredients: ['ingredient1', 'ingredient2']},
-    {id: 12, title: 'Just Herbs', ingredients: ['ingredient1', 'ingredient2']},
-    {id: 13, title: 'Duck Breast', ingredients: ['ingredient1', 'ingredient2']},
-    {id: 14, title: 'Raspberries and Blackberries', ingredients: ['ingredient1', 'ingredient2']},
-    {id: 15, title: 'Some salad', ingredients: ['ingredient1', 'ingredient2', 'ingredient3', 'ingredient4', 'ingredient5']},
-    {id: 16, title: 'Beef', ingredients: ['ingredient1', 'ingredient2', 'ingredient3', 'ingredient4']},
-    {id: 17, title: 'Chocolate 100', ingredients: ['ingredient1', 'ingredient2', 'ingredient3']},
-    {id: 18, title: 'Potato Casserole', ingredients: ['ingredient1', 'ingredient2', 'ingredient3', 'ingredient4', 'ingredient5', 'ingredient6']},
-    {id: 19, title: 'Hot Dogs Wrap', ingredients: ['ingredient1', 'ingredient2', 'ingredient3']},
-    {id: 20, title: 'Tomatoes Dish', ingredients: ['ingredient1', 'ingredient2', 'ingredient3', 'ingredient4']}
-  ]
   const history = useHistory()
-  const [recipes, setRecipes] = useState(initialRecipes)
-
-  function onRecipesFiltered(name: string) {
-    if (name) {
-      console.log('onRecipesFiltered: ' + name)
-    }
-  }
+  const [recipes, setRecipes] = useState<Recipe[]>([])
 
   function onRecipeCreateRequested() {
     history.push('/create')
@@ -57,9 +31,36 @@ const RecipeList = () => {
     history.push(`/edit/${id}`)
   }
 
-  function onRecipeDeleteRequested(id: number) {
-    console.log('onRecipeDeleteRequested: ' + id)
+  async function onRecipesFiltered(name: string) {
+    try {
+      const recipesFiltered = await searchRecipes(name)
+      setRecipes(recipesFiltered)
+    } catch (err) {
+      console.error(`Error while trying to search for recipes with name: ${name}`, err)
+    }
   }
+
+  async function onRecipeDeleteRequested(id: number) {
+    try {
+      await deleteRecipe(id)
+      const newRecipes = recipes.filter(r => r.id !== id)
+      setRecipes(newRecipes)
+    } catch (err) {
+      console.error(`Error while trying to delete recipe with ID ${id}:`, err)
+    }
+  }
+
+  useEffect(() => {
+    async function loadRecipes() {
+      try {
+        const newRecipes = await getRecipes()
+        setRecipes(newRecipes)
+      } catch (err) {
+        console.error('Error while trying to load all recipes', err)
+      }
+    }
+    loadRecipes()
+  }, [])
 
   return (
     <>
@@ -70,15 +71,17 @@ const RecipeList = () => {
           <Col size={1}><Button onClick={onRecipeCreateRequested}>New Recipe</Button></Col>
         </Row>
         {
-          recipes.map(r =>
-            <StyledRow key={r.id}>
-              <Col size={2}>{r.title}</Col>
-              <Col size={1}>
-                <Clickable onClick={() => onRecipeEditRequested(r.id)}><Edit size={24} /></Clickable>
-                <Clickable onClick={() => onRecipeDeleteRequested(r.id)}><Trash size={24} /></Clickable>
-              </Col>
-            </StyledRow>
-          )
+          recipes.length > 0
+            ? recipes.map(r =>
+                <StyledRow key={r.id}>
+                  <Col size={2}>{r.title}</Col>
+                  <Col size={1}>
+                    <Clickable onClick={() => onRecipeEditRequested(r.id)}><Edit size={24} /></Clickable>
+                    <Clickable onClick={() => onRecipeDeleteRequested(r.id)}><Trash size={24} /></Clickable>
+                  </Col>
+                </StyledRow>
+              )
+            : 'Looks like you do not have any receipts. Go ahead and add some :)'
         }
       </Grid>
     </>
