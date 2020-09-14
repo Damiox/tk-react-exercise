@@ -1,10 +1,10 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { createGlobalStyle } from 'styled-components'
-import RecipeCreate from "./components/RecipeCreate";
-import RecipeEdit from "./components/RecipeEdit";
-import RecipeList from "./components/RecipeList";
-import NoMatch from "./components/NoMatch";
+import RecipeCreate from './components/RecipeCreate';
+import RecipeEdit from './components/RecipeEdit';
+import RecipeList from './components/RecipeList';
+import NoMatch from './components/NoMatch';
 
 const GlobalStyle = createGlobalStyle`
   body {

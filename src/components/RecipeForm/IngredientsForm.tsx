@@ -2,10 +2,10 @@ import React, { MouseEvent, Dispatch, SetStateAction } from 'react'
 import styled from 'styled-components/macro'
 import { Trash } from '@styled-icons/boxicons-regular'
 import { v4 as uuidv4 } from 'uuid';
-import useInputState from "../../hooks/useInputState"
+import useInputState from '../../hooks/useInputState'
 import { Button, Clickable, TextInput } from '../Design/General'
 import { Grid, Row, Col } from '../Design/Grid'
-import { Ingredient } from "../../data/types";
+import { Ingredient } from '../../data/types';
 
 const Title = styled.div`
   text-align: center;
@@ -32,7 +32,7 @@ const IngredientsForm = ({
   ingredients,
   setIngredientList
 } : Props) => {
-  const [newIngredient, updateNewIngredient, setNewIngredient] = useInputState("")
+  const [newIngredient, updateNewIngredient, setNewIngredient] = useInputState('')
 
   function addIngredient(e: MouseEvent) {
     e.preventDefault()
@@ -40,7 +40,7 @@ const IngredientsForm = ({
       setIngredientList(
         prevIngredients => [...prevIngredients, { 'name': newIngredient }]
       )
-      setNewIngredient("")
+      setNewIngredient('')
     }
   }
 

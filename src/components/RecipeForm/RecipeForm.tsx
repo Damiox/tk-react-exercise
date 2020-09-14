@@ -1,9 +1,9 @@
 import React, { FormEvent, MouseEvent, useEffect, useState } from 'react'
 import styled from 'styled-components/macro'
 import { useHistory } from 'react-router'
-import useInputState from "../../hooks/useInputState"
-import { Ingredient, RecipeData } from "../../data/types"
-import IngredientsForm from "./IngredientsForm";
+import useInputState from '../../hooks/useInputState'
+import { Ingredient, RecipeData } from '../../data/types'
+import IngredientsForm from './IngredientsForm';
 import { Form, Button, Label, TextInput, TextArea } from '../Design/General'
 import { Grid, Row, Col } from '../Design/Grid'
 
@@ -25,20 +25,20 @@ const RecipeForm = ({
   onSave
 } : Props) => {
   const history = useHistory()
-  const [name, handleName, setName] = useInputState("")
-  const [description, handleDescription, setDescription] = useInputState("")
+  const [name, handleName, setName] = useInputState('')
+  const [description, handleDescription, setDescription] = useInputState('')
   const [ingredients, setIngredients] = useState<Array<Ingredient>>([])
 
   useEffect(() => {
     // This data is loaded from the backend API, and once it's ready the child will be updated
-    setName(recipeData?.name ?? "")
-    setDescription(recipeData?.description ?? "")
+    setName(recipeData?.name ?? '')
+    setDescription(recipeData?.description ?? '')
     setIngredients(recipeData?.ingredients ?? [])
 
   }, [recipeData])
 
   function isInvalid() {
-    return name === "" || description === "" || ingredients.length == 0
+    return name === '' || description === '' || ingredients.length == 0
   }
 
   function onSubmit(e: FormEvent) {

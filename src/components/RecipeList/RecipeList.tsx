@@ -5,8 +5,8 @@ import RecipeSearch from './RecipeSearch'
 import { Edit, Trash } from '@styled-icons/boxicons-regular'
 import { Clickable, Title, Button } from '../Design/General'
 import { Grid, Row, Col } from '../Design/Grid'
-import { getRecipes, searchRecipes, deleteRecipe } from "../../data/api";
-import { Recipe } from "../../data/types";
+import { getRecipes, searchRecipes, deleteRecipe } from '../../data/api';
+import { Recipe } from '../../data/types';
 
 const StyledRow = styled(Row)`
   margin: 0.5rem;

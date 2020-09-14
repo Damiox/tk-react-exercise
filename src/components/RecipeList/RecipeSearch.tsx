@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 import styled from 'styled-components/macro'
-import useInputState from "../../hooks/useInputState";
+import useInputState from '../../hooks/useInputState';
 import { Button, TextInput } from '../Design/General'
 import { Row } from '../Design/Grid'
 
@@ -14,7 +14,7 @@ type Props = {
 const RecipeSearch = ({
   onRecipesFiltered
 } : Props) => {
-  const [name, updateName,] = useInputState("")
+  const [name, updateName,] = useInputState('')
 
   function onSearch() {
     onRecipesFiltered(name)

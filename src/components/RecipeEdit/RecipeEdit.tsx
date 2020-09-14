@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import RecipeForm from "../RecipeForm";
+import RecipeForm from '../RecipeForm';
 import { useParams, useHistory } from 'react-router-dom'
-import { editRecipe, getRecipeDetails } from "../../data/api";
-import { RecipeData } from "../../data/types";
+import { editRecipe, getRecipeDetails } from '../../data/api';
+import { RecipeData } from '../../data/types';
 import { Title } from '../Design/General'
 
 const RecipeEdit = () => {

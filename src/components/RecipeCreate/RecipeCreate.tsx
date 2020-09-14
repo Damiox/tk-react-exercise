@@ -1,8 +1,8 @@
 import React from 'react'
-import { useHistory } from "react-router-dom";
-import RecipeForm from "../RecipeForm";
-import { createRecipe } from "../../data/api";
-import { RecipeData } from "../../data/types";
+import { useHistory } from 'react-router-dom';
+import RecipeForm from '../RecipeForm';
+import { createRecipe } from '../../data/api';
+import { RecipeData } from '../../data/types';
 import { Title } from '../Design/General'
 
 const RecipeCreate = () => {
