@@ -1,9 +1,10 @@
 import React from "react";
 import styled from 'styled-components/macro'
 import useInputState from "../../hooks/useInputState";
-import { Button, TextInput } from '../Design'
+import { Button, TextInput } from '../Design/FormDesign'
+import { Row } from '../Design/GridDesign'
 
-const SearchContainer = styled.div`
+const SearchContainer = styled(Row)`
 `
 
 type Props = {

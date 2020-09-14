@@ -3,18 +3,11 @@ import { useHistory } from 'react-router'
 import styled from 'styled-components/macro'
 import RecipeSearch from './RecipeSearch'
 import {Edit, Trash} from '@styled-icons/boxicons-regular'
-import { Clickable, Button } from '../Design'
+import { Clickable, Button } from '../Design/FormDesign'
+import { Grid, Row, Col } from '../Design/GridDesign'
 
 const Title = styled.h1`
   text-align: center;
-`
-const Grid = styled.div`
-  text-align: center;
-`
-const Row = styled.div`
-  display: flex;
-  margin: 0.5rem;
-  padding: 0.5rem;
 `
 const StyledRow = styled(Row)`
   border: 0.5px solid black;
@@ -23,12 +16,6 @@ const StyledRow = styled(Row)`
   font-size: 1.1rem;
   box-shadow: 2px 2px black;
 `
-
-const Col = styled.div`
-  flex: 1;
-  margin: 0.5rem;
-`
-
 
 const RecipeList = () => {
   const initialRecipes = [
@@ -79,14 +66,14 @@ const RecipeList = () => {
       <Title>Recipe List</Title>
       <Grid>
         <Row>
-          <Col><RecipeSearch onRecipesFiltered={onRecipesFiltered} /></Col>
-          <Col><Button onClick={onRecipeCreateRequested}>New Recipe</Button></Col>
+          <Col size={2}><RecipeSearch onRecipesFiltered={onRecipesFiltered} /></Col>
+          <Col size={1}><Button onClick={onRecipeCreateRequested}>New Recipe</Button></Col>
         </Row>
         {
           recipes.map(r =>
             <StyledRow key={r.id}>
-              <Col>{r.title}</Col>
-              <Col>
+              <Col size={2}>{r.title}</Col>
+              <Col size={1}>
                 <Clickable onClick={() => onRecipeEditRequested(r.id)}><Edit size={24} /></Clickable>
                 <Clickable onClick={() => onRecipeDeleteRequested(r.id)}><Trash size={24} /></Clickable>
               </Col>

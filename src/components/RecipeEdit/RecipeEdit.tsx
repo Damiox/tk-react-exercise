@@ -1,6 +1,11 @@
 import React from 'react'
+import styled from "styled-components/macro";
 import RecipeForm from "../RecipeForm";
 import { useParams, useHistory } from 'react-router-dom'
+
+const Title = styled.h1`
+  text-align: center;
+`
 
 const RecipeEdit = () => {
   const { id } = useParams() as { id: string }
@@ -16,7 +21,7 @@ const RecipeEdit = () => {
 
   return (
     <>
-      <h1>Recipe Detail for {id}</h1>
+      <Title>Edit Recipe</Title>
       <RecipeForm recipe={recipe} onSave={onSave} />
     </>
   )

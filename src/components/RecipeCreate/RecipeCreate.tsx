@@ -1,6 +1,11 @@
 import React from 'react'
+import styled from "styled-components/macro";
 import { useHistory } from "react-router-dom";
 import RecipeForm from "../RecipeForm";
+
+const Title = styled.h1`
+  text-align: center;
+`
 
 const RecipeCreate = () => {
   const history = useHistory()
@@ -12,7 +17,7 @@ const RecipeCreate = () => {
 
   return (
     <>
-      <h1>Recipe Create</h1>
+      <Title>Add Recipe</Title>
       <RecipeForm onSave={onSave} />
     </>
   )
