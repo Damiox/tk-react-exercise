@@ -9,6 +9,7 @@ const Title = styled.h1`
   text-align: center;
 `
 const Grid = styled.div`
+  text-align: center;
 `
 const Row = styled.div`
   display: flex;
@@ -16,10 +17,11 @@ const Row = styled.div`
   padding: 0.5rem;
 `
 const StyledRow = styled(Row)`
-  border: 1px dashed black;
+  border: 0.5px solid black;
   background: azure;
   font-family: sans-serif;
   font-size: 1.1rem;
+  box-shadow: 2px 2px black;
 `
 
 const Col = styled.div`
@@ -63,19 +65,18 @@ const RecipeList = () => {
   ]
   const [recipes, setRecipes] = useState(initialRecipes)
 
-  function onRecipesFiltered() {
-    console.log('onRecipesFiltered')
+  function onRecipesFiltered(name: string) {
+    console.log('onRecipesFiltered: ' + name)
   }
 
-  function onRecipeDeleteRequested() {
-    console.log('onRecipeDeleteRequested')
+  function onRecipeDeleteRequested(id: number) {
+    console.log('onRecipeDeleteRequested: ' + id)
   }
 
   return (
     <>
       <Title>Recipe List</Title>
       <Grid>
-
         <Row>
           <Col><RecipeSearch onRecipesFiltered={onRecipesFiltered} /></Col>
           <Col><Link to="/create-recipe">New Recipe</Link></Col>
@@ -87,7 +88,7 @@ const RecipeList = () => {
               <Col>
                 <IconStyleWrapper>
                   <Link to={`/edit/${r.id}`}><Edit size={24} /></Link>
-                  <Clickable onClick={onRecipeDeleteRequested}><Trash size={24} /></Clickable>
+                  <Clickable onClick={() => onRecipeDeleteRequested(r.id)}><Trash size={24} /></Clickable>
                 </IconStyleWrapper>
               </Col>
             </StyledRow>

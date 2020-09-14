@@ -1,14 +1,23 @@
 import React from 'react'
 import RecipeForm from "../RecipeForm";
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 
 const RecipeEdit = () => {
   const { id } = useParams() as { id: string }
-  // TODO: ADD OPTION TO REMOVE
+  const history = useHistory()
+
+  function onSave() {
+    console.log('onSave for edit')
+    history.replace('/')
+  }
+
+  let recipe = {id: 18, title: 'Potato Casserole', description: 'Really good food with potatoes and a lot of stuff',
+    ingredients: ['ingredient1', 'ingredient2', 'ingredient3', 'ingredient4', 'ingredient5', 'ingredient6']}
+
   return (
     <>
       <h1>Recipe Detail for {id}</h1>
-      <RecipeForm />
+      <RecipeForm recipe={recipe} onSave={onSave} />
     </>
   )
 }
