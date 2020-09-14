@@ -7,10 +7,13 @@ const request = (
   method: string,
   body?: RequestInit['body']
 ) => {
-  return fetch(url, {method: method, body: body})
+  const headers = {'Content-Type': 'application/json'}
+  return fetch(url, {method: method, headers: headers, body: body})
     .then((resp: Response) => {
-      if (resp.status === 200) {
-        return resp.json()
+      if (resp.status >= 200 && resp.status <= 299) {
+        if (resp.status !== 204) {
+          return resp.json()
+        }
       } else {
         throw Promise.reject({resp})
       }
@@ -26,7 +29,7 @@ const request = (
 
 export const getRecipes = (
 ): Promise<Array<Recipe>> => {
-  const url = `${BASE_URL}/recipes`
+  const url = `${BASE_URL}/recipes/`
   return request(url, 'GET')
 }
 
@@ -40,14 +43,14 @@ export const searchRecipes = (
 export const getRecipeDetails = (
   id: number
 ): Promise<Recipe> => {
-  const url = `${BASE_URL}/recipe/${id}`
+  const url = `${BASE_URL}/recipes/${id}/`
   return request(url, 'GET')
 }
 
 export const deleteRecipe = (
   id: number
 ) => {
-  const url = `${BASE_URL}/recipe/${id}`
+  const url = `${BASE_URL}/recipes/${id}/`
   return request(url, 'DELETE')
 }
 
@@ -55,13 +58,13 @@ export const editRecipe = (
   id: number,
   recipeData: RecipeData
 ): Promise<Recipe> => {
-  const url = `${BASE_URL}/recipe/${id}`
+  const url = `${BASE_URL}/recipes/${id}/`
   return request(url, 'PUT', JSON.stringify(recipeData))
 }
 
 export const createRecipe = (
   recipeData: RecipeData
 ): Promise<Recipe> => {
-  const url = `${BASE_URL}/recipe`
+  const url = `${BASE_URL}/recipes/`
   return request(url, 'POST', JSON.stringify(recipeData))
 }

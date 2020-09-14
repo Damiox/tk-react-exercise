@@ -3,15 +3,14 @@ import { useHistory } from 'react-router'
 import styled from 'styled-components/macro'
 import RecipeSearch from './RecipeSearch'
 import { Edit, Trash } from '@styled-icons/boxicons-regular'
-import { Clickable, Button } from '../Design/FormDesign'
-import { Grid, Row, Col } from '../Design/GridDesign'
+import { Clickable, Title, Button } from '../Design/General'
+import { Grid, Row, Col } from '../Design/Grid'
 import { getRecipes, searchRecipes, deleteRecipe } from "../../data/api";
 import { Recipe } from "../../data/types";
 
-const Title = styled.h1`
-  text-align: center;
-`
 const StyledRow = styled(Row)`
+  margin: 0.5rem;
+  padding: 0.5rem;
   border: 0.5px solid black;
   background: azure;
   font-family: sans-serif;
@@ -21,7 +20,7 @@ const StyledRow = styled(Row)`
 
 const RecipeList = () => {
   const history = useHistory()
-  const [recipes, setRecipes] = useState<Recipe[]>([])
+  const [recipes, setRecipes] = useState<Array<Recipe>>([])
 
   function onRecipeCreateRequested() {
     history.push('/create')
@@ -71,17 +70,15 @@ const RecipeList = () => {
           <Col size={1}><Button onClick={onRecipeCreateRequested}>New Recipe</Button></Col>
         </Row>
         {
-          recipes.length > 0
-            ? recipes.map(r =>
-                <StyledRow key={r.id}>
-                  <Col size={2}>{r.title}</Col>
-                  <Col size={1}>
-                    <Clickable onClick={() => onRecipeEditRequested(r.id)}><Edit size={24} /></Clickable>
-                    <Clickable onClick={() => onRecipeDeleteRequested(r.id)}><Trash size={24} /></Clickable>
-                  </Col>
-                </StyledRow>
-              )
-            : 'Looks like you do not have any receipts. Go ahead and add some :)'
+          recipes.map(r =>
+            <StyledRow key={r.id}>
+              <Col size={2}>{r.name}</Col>
+              <Col size={1}>
+                <Clickable onClick={() => onRecipeEditRequested(r.id)}><Edit size={24} /></Clickable>
+                <Clickable onClick={() => onRecipeDeleteRequested(r.id)}><Trash size={24} /></Clickable>
+              </Col>
+            </StyledRow>
+          )
         }
       </Grid>
     </>

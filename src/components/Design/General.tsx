@@ -5,6 +5,13 @@ const Clickable = styled.div`
   cursor: pointer;
 `
 
+const Title = styled.h1`
+  text-align: center;
+  color: cornflowerblue;
+  font-family: sans-serif;
+  font-weight: bold;
+`
+
 const Form = styled.form`
 `
 const Button = styled.button`
@@ -22,4 +29,4 @@ const TextArea = styled.textarea`
   height: 5rem;
 `
 
-export { Clickable, Form, Button, Label, TextInput, TextArea }
+export { Clickable, Title, Form, Button, Label, TextInput, TextArea }

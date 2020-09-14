@@ -1,18 +1,14 @@
-import React, {useEffect} from 'react'
-import styled from "styled-components/macro";
+import React, { useState, useEffect } from 'react'
 import RecipeForm from "../RecipeForm";
 import { useParams, useHistory } from 'react-router-dom'
 import { editRecipe, getRecipeDetails } from "../../data/api";
 import { RecipeData } from "../../data/types";
-
-const Title = styled.h1`
-  text-align: center;
-`
+import { Title } from '../Design/General'
 
 const RecipeEdit = () => {
   const id = Number((useParams() as { id: string }).id)
   const history = useHistory()
-  let recipeData;
+  const [recipeData, setRecipeData] = useState<RecipeData>();
 
   async function onSave(recipeData: RecipeData) {
     try {
@@ -25,7 +21,12 @@ const RecipeEdit = () => {
 
   useEffect(() => {
     async function loadRecipeDetails() {
-      recipeData = await getRecipeDetails(id)
+      try {
+        const recipeDataDetailed = await getRecipeDetails(id)
+        setRecipeData(recipeDataDetailed)
+      } catch (err) {
+        console.error(`Error while trying to get recipe details for ID ${id}`, err)
+      }
     }
     loadRecipeDetails()
   }, [])

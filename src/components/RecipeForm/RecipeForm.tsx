@@ -1,15 +1,11 @@
-import React, {useState} from 'react'
+import React, { FormEvent, MouseEvent, useEffect, useState } from 'react'
 import styled from 'styled-components/macro'
 import { useHistory } from 'react-router'
 import useInputState from "../../hooks/useInputState"
-import { RecipeData } from "../../data/types"
+import { Ingredient, RecipeData } from "../../data/types"
 import IngredientsForm from "./IngredientsForm";
-import { Form, Button, Label, TextInput, TextArea } from '../Design/FormDesign'
-import { Grid, Row, Col } from '../Design/GridDesign'
-
-const Title = styled.h3`
-  text-align: center;
-`
+import { Form, Button, Label, TextInput, TextArea } from '../Design/General'
+import { Grid, Row, Col } from '../Design/Grid'
 
 const FormGrid = styled(Grid)`
   text-align: center;
@@ -29,51 +25,63 @@ const RecipeForm = ({
   onSave
 } : Props) => {
   const history = useHistory()
-  const [title, updateTitle,] = useInputState(recipeData?.title ?? "")
-  const [description, updateDescription,] = useInputState(recipeData?.description ?? "")
-  const [ingredients, updateIngredients] = useState(recipeData?.ingredients ?? [])
+  const [name, handleName, setName] = useInputState("")
+  const [description, handleDescription, setDescription] = useInputState("")
+  const [ingredients, setIngredients] = useState<Array<Ingredient>>([])
 
-  function onSubmit(e: any) {
+  useEffect(() => {
+    // This data is loaded from the backend API, and once it's ready the child will be updated
+    setName(recipeData?.name ?? "")
+    setDescription(recipeData?.description ?? "")
+    setIngredients(recipeData?.ingredients ?? [])
+
+  }, [recipeData])
+
+  function onSubmit(e: FormEvent) {
     e.preventDefault()
     let newRecipeData = {
       ...recipeData,
-      title: title,
+      name: name,
       description: description,
       ingredients: ingredients
     }
     onSave(newRecipeData)
   }
 
-  function onCancel() {
+  function onCancel(e: MouseEvent) {
+    e.preventDefault()
     history.push('/')
   }
 
   return (
     <>
-      <Title>Recipe Details</Title>
       <Form onSubmit={onSubmit}>
         <FormGrid>
           <Row>
-            <Col size={0.25}>
-              <Label htmlFor="title">Title</Label>
+            <Col size={0.30}>
+              <Label htmlFor="name">Name</Label>
             </Col>
-            <Col size={0.25}>
-              <TextInput name="title" value={title} onChange={updateTitle} />
+            <Col size={0.50}>
+              <TextInput name="name" value={name} onChange={handleName} />
             </Col>
           </Row>
           <Row>
-            <Col size={0.25}>
+            <Col size={0.30}>
               <Label htmlFor="description">Description</Label>
             </Col>
-            <Col size={0.25}>
-              <TextArea name="description" value={description} onChange={updateDescription} />
+            <Col size={0.50}>
+              <TextArea name="description" value={description} onChange={handleDescription} />
             </Col>
           </Row>
 
-          <IngredientsForm ingredients={ingredients} updateIngredients={updateIngredients} />
+          <Row>
+            <Col size={1}>
+              <IngredientsForm ingredients={ingredients} setIngredientList={setIngredients} />
+            </Col>
+          </Row>
 
           <Row>
-            <Col size={0.50}>
+            <Col size={1}>
               <ActionButton>Save</ActionButton>
               <ActionButton onClick={onCancel}>Cancel</ActionButton>
             </Col>

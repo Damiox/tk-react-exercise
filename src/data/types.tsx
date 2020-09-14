@@ -1,8 +1,12 @@
 
+export interface Ingredient {
+  name: string
+}
+
 export interface RecipeData {
-  title: string
+  name: string
   description: string
-  ingredients: Array<string>
+  ingredients: Array<Ingredient>
 }
 
 export interface Recipe extends RecipeData {
