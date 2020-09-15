@@ -54,7 +54,8 @@ const IngredientsForm = ({
       <Title>Ingredients</Title>
       <Row>
         <Col size={0.50}>
-          <TextInput name="ingredients" value={newIngredient} onChange={updateNewIngredient} />
+          <TextInput className="ingredient" name="ingredients"
+                     value={newIngredient} onChange={updateNewIngredient} />
         </Col>
         <Col size={0.25}>
           <Button onClick={e => addIngredient(e)}>Add</Button>
@@ -64,7 +65,8 @@ const IngredientsForm = ({
         ingredients.map((i: Ingredient) =>
           <IngredientItem className="ingredient-item" key={uuidv4()}>
             <Col size={0.50}>{i.name}</Col>
-            <Col size={0.25}><Clickable onClick={() => removeIngredient(i)}><Trash size={20} /></Clickable></Col>
+            <Col size={0.25}><Clickable className="ingredient-remove"
+                                        onClick={() => removeIngredient(i)}><Trash size={20} /></Clickable></Col>
           </IngredientItem>)
       }
     </IngredientContainer>

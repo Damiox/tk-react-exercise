@@ -4,6 +4,11 @@ import IngredientsForm from "./IngredientsForm";
 import { Ingredient } from "../../data/types";
 
 describe('<IngredientsForm>', () => {
+  beforeEach(() => {
+    jest.resetModules()
+    jest.clearAllMocks()
+  })
+
   it('renders the initial ingredients when initializing', () => {
     const ingredients = [{"name": "ingredient 1"}, {"name": "ingredient 2"}, {"name": "ingredient 3"}]
     const onIngredientAdded = jest.fn()
@@ -36,7 +41,7 @@ describe('<IngredientsForm>', () => {
                        onIngredientRemoved={onIngredientRemoved} />
     )
 
-    const ingredientInput = container.querySelector('input[type=text]') as HTMLInputElement
+    const ingredientInput = container.querySelector('.ingredient') as HTMLInputElement
     fireEvent.change(ingredientInput, { target: { value: ingredientToAdd['name'] } })
     expect(ingredientInput.value).toEqual(ingredientToAdd['name'])
 
@@ -64,7 +69,7 @@ describe('<IngredientsForm>', () => {
 
     // identifying and clicking on the trash icon to remove the ingredient
     const ingredientsRemoveIconHtml =
-      container.querySelectorAll('.ingredient-item svg') as NodeListOf<HTMLElement>
+      container.querySelectorAll('.ingredient-remove') as NodeListOf<HTMLElement>
     expect(ingredientsRemoveIconHtml.length).toEqual(3)
     fireEvent.click(ingredientsRemoveIconHtml[ingredientToRemoveIndex])
 

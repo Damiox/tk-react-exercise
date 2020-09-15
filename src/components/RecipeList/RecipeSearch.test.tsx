@@ -3,6 +3,11 @@ import { render, fireEvent } from '@testing-library/react'
 import RecipeSearch from "./RecipeSearch";
 
 describe('<RecipeSearch>', () => {
+  beforeEach(() => {
+    jest.resetModules()
+    jest.clearAllMocks()
+  })
+
   it('has an empty value when initializing', () => {
     const onRecipesFiltered = jest.fn()
 

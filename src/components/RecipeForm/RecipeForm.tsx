@@ -104,7 +104,7 @@ const RecipeForm = ({
           <Row>
             <Col size={1}>
               <ActionButton className="recipe-save" disabled={isInvalid()}>Save</ActionButton>
-              <ActionButton onClick={onCancel}>Cancel</ActionButton>
+              <ActionButton className="recipe-cancel" onClick={onCancel}>Cancel</ActionButton>
             </Col>
           </Row>
         </FormGrid>

@@ -3,6 +3,11 @@ import { render, fireEvent } from '@testing-library/react'
 import RecipeForm from "./RecipeForm";
 
 describe('<RecipeForm>', () => {
+  beforeEach(() => {
+    jest.resetModules()
+    jest.clearAllMocks()
+  })
+
   it('renders the form with initial values', () => {
     const recipeData = { name: 'Recipe Name', description: 'Recipe Description', ingredients: [] }
     const onSave = jest.fn()

@@ -10,6 +10,11 @@ const mockedGetRecipeDetails = getRecipeDetails as typeof getRecipeDetails & jes
 const mockedEditRecipe = editRecipe as typeof editRecipe & jest.Mock
 
 describe('<RecipeEdit>', () => {
+  beforeEach(() => {
+    jest.resetModules()
+    jest.clearAllMocks()
+  })
+
   it('loads the recipe details at the beginning', async () => {
     const recipeId = 5
     const recipeDetails = {
@@ -64,5 +69,30 @@ describe('<RecipeEdit>', () => {
     fireEvent.click(buttonHtml)
 
     await waitFor(() => expect(mockedEditRecipe).toBeCalledWith(recipeId, recipeDetails))
+  })
+
+  it('can cancel the recipe edition', async () => {
+    const recipeId = 5
+    const recipeDetails = {
+      id: recipeId, name: 'Recipe Name', description: 'Recipe Description',
+      ingredients: [{ name: 'ingredient1'}, { name: 'ingredient2' }]
+    }
+
+    mockedGetRecipeDetails.mockResolvedValueOnce(recipeDetails)
+
+    const { container } = render(
+      <MemoryRouter initialEntries={[`/edit/${recipeId}`]}>
+        <Route path='/edit/:id'>
+          <RecipeEdit />
+        </Route>
+      </MemoryRouter>
+    )
+
+    await waitFor(() => expect(mockedGetRecipeDetails).toBeCalledWith(recipeId))
+
+    const buttonHtml = container.querySelector('.recipe-cancel') as HTMLButtonElement
+    fireEvent.click(buttonHtml)
+
+    await waitFor(() => expect(mockedEditRecipe).not.toHaveBeenCalled())
   })
 })
