@@ -8,8 +8,9 @@ describe('useInputState()', () => {
     const { result } = renderHook(() => useInputState(""))
     let [value, handleChange,] = result.current
 
-    render(<input data-testid="input" type="text" onChange={handleChange} value={value} />)
-
+    act(() => {
+      render(<input data-testid="input" type="text" onChange={handleChange} value={value}/>)
+    })
     const input = screen.getByTestId("input");
 
     const testValue = 'another value'
