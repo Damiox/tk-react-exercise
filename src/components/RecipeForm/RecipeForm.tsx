@@ -35,10 +35,10 @@ const RecipeForm = ({
     setDescription(recipeData?.description ?? '')
     setIngredients(recipeData?.ingredients ?? [])
 
-  }, [recipeData])
+  }, [recipeData, setName, setDescription])
 
   function isInvalid() {
-    return name === '' || description === '' || ingredients.length == 0
+    return name === '' || description === '' || ingredients.length === 0
   }
 
   function onSubmit(e: FormEvent) {
@@ -56,6 +56,18 @@ const RecipeForm = ({
   function onCancel(e: MouseEvent) {
     e.preventDefault()
     history.push('/')
+  }
+
+  function onIngredientAdded(ingredientToAdd: Ingredient) {
+    setIngredients(
+      prevIngredients => [...prevIngredients, ingredientToAdd]
+    )
+  }
+
+  function onIngredientRemoved(ingredientToRemove: Ingredient) {
+    setIngredients(
+      prevIngredients => prevIngredients.filter(i => i.name !== ingredientToRemove.name)
+    )
   }
 
   return (
@@ -81,7 +93,9 @@ const RecipeForm = ({
 
           <Row>
             <Col size={1}>
-              <IngredientsForm ingredients={ingredients} setIngredientList={setIngredients} />
+              <IngredientsForm ingredients={ingredients}
+                               onIngredientAdded={onIngredientAdded}
+                               onIngredientRemoved={onIngredientRemoved} />
             </Col>
           </Row>
 

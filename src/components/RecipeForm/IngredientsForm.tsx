@@ -1,4 +1,4 @@
-import React, { MouseEvent, Dispatch, SetStateAction } from 'react'
+import React, { MouseEvent, Dispatch } from 'react'
 import styled from 'styled-components/macro'
 import { Trash } from '@styled-icons/boxicons-regular'
 import { v4 as uuidv4 } from 'uuid';
@@ -18,36 +18,37 @@ const IngredientContainer = styled(Grid)`
   margin: 1.5rem;
 `
 
-const IngredientItem = styled(Row)`
+const IngredientItem = styled(Row).attrs(p => ({
+  className: 'ingredient-item' /* for testing */
+}))`
   margin: 0;
   padding: 0.25rem;
 `
 
 type Props = {
   ingredients: Array<Ingredient>,
-  setIngredientList: Dispatch<SetStateAction<Array<Ingredient>>>
+  onIngredientAdded: Dispatch<Ingredient>,
+  onIngredientRemoved: Dispatch<Ingredient>
 }
 
 const IngredientsForm = ({
   ingredients,
-  setIngredientList
+  onIngredientAdded,
+  onIngredientRemoved
 } : Props) => {
   const [newIngredient, updateNewIngredient, setNewIngredient] = useInputState('')
 
   function addIngredient(e: MouseEvent) {
     e.preventDefault()
     if (newIngredient) {
-      setIngredientList(
-        prevIngredients => [...prevIngredients, { 'name': newIngredient }]
-      )
+      onIngredientAdded({ 'name': newIngredient })
+      // resetting the input text so new ingredients can be added
       setNewIngredient('')
     }
   }
 
   function removeIngredient(ingredientToRemove: Ingredient) {
-    setIngredientList(
-      prevIngredients => prevIngredients.filter(i => i.name !== ingredientToRemove.name)
-    )
+    onIngredientRemoved(ingredientToRemove)
   }
 
   return (
