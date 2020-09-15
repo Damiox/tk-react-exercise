@@ -79,7 +79,8 @@ const RecipeForm = ({
               <Label htmlFor="name">Name</Label>
             </Col>
             <Col size={0.50}>
-              <TextInput name="name" value={name} onChange={handleName} required />
+              <TextInput className="recipe-name" name="name" value={name}
+                         onChange={handleName} required />
             </Col>
           </Row>
           <Row>
@@ -87,7 +88,8 @@ const RecipeForm = ({
               <Label htmlFor="description">Description</Label>
             </Col>
             <Col size={0.50}>
-              <TextArea name="description" value={description} onChange={handleDescription} required />
+              <TextArea className="recipe-desc" name="description" value={description}
+                        onChange={handleDescription} required />
             </Col>
           </Row>
 
@@ -101,7 +103,7 @@ const RecipeForm = ({
 
           <Row>
             <Col size={1}>
-              <ActionButton disabled={isInvalid()}>Save</ActionButton>
+              <ActionButton className="recipe-save" disabled={isInvalid()}>Save</ActionButton>
               <ActionButton onClick={onCancel}>Cancel</ActionButton>
             </Col>
           </Row>

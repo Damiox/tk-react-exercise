@@ -18,9 +18,7 @@ const IngredientContainer = styled(Grid)`
   margin: 1.5rem;
 `
 
-const IngredientItem = styled(Row).attrs(p => ({
-  className: 'ingredient-item' /* for testing */
-}))`
+const IngredientItem = styled(Row)`
   margin: 0;
   padding: 0.25rem;
 `
@@ -64,7 +62,7 @@ const IngredientsForm = ({
       </Row>
       {
         ingredients.map((i: Ingredient) =>
-          <IngredientItem key={uuidv4()}>
+          <IngredientItem className="ingredient-item" key={uuidv4()}>
             <Col size={0.50}>{i.name}</Col>
             <Col size={0.25}><Clickable onClick={() => removeIngredient(i)}><Trash size={20} /></Clickable></Col>
           </IngredientItem>)
