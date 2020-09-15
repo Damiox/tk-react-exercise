@@ -47,7 +47,6 @@ describe('<IngredientsForm>', () => {
       app = container
     })
 
-
     if (app) {
       const ingredientInput = app.querySelector('input[type=text]') as HTMLInputElement
       fireEvent.change(ingredientInput, { target: { value: ingredientToAdd['name'] } })
@@ -80,7 +79,6 @@ describe('<IngredientsForm>', () => {
       app = container
     })
 
-
     if (app) {
       // identifying and clicking on the trash icon to remove the ingredient
       const ingredientsRemoveIconHtml =
@@ -94,4 +92,3 @@ describe('<IngredientsForm>', () => {
     }
   })
 })
-
