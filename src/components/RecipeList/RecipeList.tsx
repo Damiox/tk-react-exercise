@@ -71,10 +71,11 @@ const RecipeList = () => {
         {
           recipes.map(r =>
             <StyledRow key={r.id}>
-              <Col size={2}>{r.name}</Col>
+              <Col className="recipe-name" size={2}>{r.name}</Col>
               <Col size={1}>
                 <Clickable onClick={() => onRecipeEditRequested(r.id)}><Edit size={24} /></Clickable>
-                <Clickable onClick={() => onRecipeDeleteRequested(r.id)}><Trash size={24} /></Clickable>
+                <Clickable className="recipe-remove"
+                           onClick={() => onRecipeDeleteRequested(r.id)}><Trash size={24} /></Clickable>
               </Col>
             </StyledRow>
           )

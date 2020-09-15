@@ -79,4 +79,3 @@ describe('<RecipeForm>', () => {
     expect(buttonSaveHtml.disabled).toBeTruthy()
   })
 })
-

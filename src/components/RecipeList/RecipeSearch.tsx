@@ -22,8 +22,8 @@ const RecipeSearch = ({
 
   return (
     <SearchContainer>
-      <TextInput value={name} onChange={updateName} />
-      <Button onClick={onSearch}>Search</Button>
+      <TextInput className="recipe-search" value={name} onChange={updateName} />
+      <Button className="recipe-search-btn" onClick={onSearch}>Search</Button>
     </SearchContainer>
   )
 }

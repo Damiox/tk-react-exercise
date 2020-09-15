@@ -9,6 +9,21 @@ jest.mock('../../data/api')
 const mockedGetRecipeDetails = getRecipeDetails as typeof getRecipeDetails & jest.Mock
 const mockedEditRecipe = editRecipe as typeof editRecipe & jest.Mock
 
+const setupComponent = (recipeId: number) => {
+  return render(
+    <MemoryRouter initialEntries={[`/edit/${recipeId}`]}>
+      <Route path='/edit/:id'>
+        <RecipeEdit />
+      </Route>
+    </MemoryRouter>
+  )
+}
+
+const sampleRecipe = {
+  id: 5, name: 'Recipe Name', description: 'Recipe Description',
+  ingredients: [{ name: 'ingredient1'}, { name: 'ingredient2' }]
+}
+
 describe('<RecipeEdit>', () => {
   beforeEach(() => {
     jest.resetModules()
@@ -16,79 +31,43 @@ describe('<RecipeEdit>', () => {
   })
 
   it('loads the recipe details at the beginning', async () => {
-    const recipeId = 5
-    const recipeDetails = {
-      id: recipeId, name: 'Recipe Name', description: 'Recipe Description',
-      ingredients: [{ name: 'ingredient1'}, { name: 'ingredient2' }]
-    }
+    mockedGetRecipeDetails.mockResolvedValueOnce(sampleRecipe)
 
-    mockedGetRecipeDetails.mockResolvedValueOnce(recipeDetails)
+    const { container } = setupComponent(sampleRecipe.id)
 
-    const { container } = render(
-      <MemoryRouter initialEntries={[`/edit/${recipeId}`]}>
-        <Route path='/edit/:id'>
-          <RecipeEdit />
-        </Route>
-      </MemoryRouter>
-    )
-
-    await waitFor(() => expect(mockedGetRecipeDetails).toBeCalledWith(recipeId))
+    await waitFor(() => expect(mockedGetRecipeDetails).toBeCalledWith(sampleRecipe.id))
 
     const nameHtml = container.querySelector('.recipe-name') as HTMLInputElement
     const descHtml = container.querySelector('.recipe-desc') as HTMLTextAreaElement
     const ingredientsHtml = container.querySelectorAll('.ingredient-item') as NodeListOf<HTMLDivElement>
 
-    expect(nameHtml.value).toEqual(recipeDetails.name)
-    expect(descHtml.value).toEqual(recipeDetails.description)
-    expect(ingredientsHtml.length).toEqual(recipeDetails.ingredients.length)
-    const ingredientsNames = Array.from(recipeDetails.ingredients).map((i: Ingredient) => i.name)
+    expect(nameHtml.value).toEqual(sampleRecipe.name)
+    expect(descHtml.value).toEqual(sampleRecipe.description)
+    expect(ingredientsHtml.length).toEqual(sampleRecipe.ingredients.length)
+    const ingredientsNames = Array.from(sampleRecipe.ingredients).map((i: Ingredient) => i.name)
     const ingredientsHtmlNames = Array.from(ingredientsHtml).map((i: HTMLDivElement) => i.textContent)
     expect(ingredientsHtmlNames).toEqual(ingredientsNames)
   })
 
   it('updates the recipe details', async () => {
-    const recipeId = 5
-    const recipeDetails = {
-      id: recipeId, name: 'Recipe Name', description: 'Recipe Description',
-      ingredients: [{ name: 'ingredient1'}, { name: 'ingredient2' }]
-    }
+    mockedGetRecipeDetails.mockResolvedValueOnce(sampleRecipe)
 
-    mockedGetRecipeDetails.mockResolvedValueOnce(recipeDetails)
+    const { container } = setupComponent(sampleRecipe.id)
 
-    const { container } = render(
-      <MemoryRouter initialEntries={[`/edit/${recipeId}`]}>
-        <Route path='/edit/:id'>
-          <RecipeEdit />
-        </Route>
-      </MemoryRouter>
-    )
-
-    await waitFor(() => expect(mockedGetRecipeDetails).toBeCalledWith(recipeId))
+    await waitFor(() => expect(mockedGetRecipeDetails).toBeCalledWith(sampleRecipe.id))
 
     const buttonHtml = container.querySelector('.recipe-save') as HTMLButtonElement
     fireEvent.click(buttonHtml)
 
-    await waitFor(() => expect(mockedEditRecipe).toBeCalledWith(recipeId, recipeDetails))
+    await waitFor(() => expect(mockedEditRecipe).toBeCalledWith(sampleRecipe.id, sampleRecipe))
   })
 
   it('can cancel the recipe edition', async () => {
-    const recipeId = 5
-    const recipeDetails = {
-      id: recipeId, name: 'Recipe Name', description: 'Recipe Description',
-      ingredients: [{ name: 'ingredient1'}, { name: 'ingredient2' }]
-    }
+    mockedGetRecipeDetails.mockResolvedValueOnce(sampleRecipe)
 
-    mockedGetRecipeDetails.mockResolvedValueOnce(recipeDetails)
+    const { container } = setupComponent(sampleRecipe.id)
 
-    const { container } = render(
-      <MemoryRouter initialEntries={[`/edit/${recipeId}`]}>
-        <Route path='/edit/:id'>
-          <RecipeEdit />
-        </Route>
-      </MemoryRouter>
-    )
-
-    await waitFor(() => expect(mockedGetRecipeDetails).toBeCalledWith(recipeId))
+    await waitFor(() => expect(mockedGetRecipeDetails).toBeCalledWith(sampleRecipe.id))
 
     const buttonHtml = container.querySelector('.recipe-cancel') as HTMLButtonElement
     fireEvent.click(buttonHtml)

@@ -140,4 +140,3 @@ describe('Recipes API', () => {
     expect(recipeDetails).toEqual(recipeDetailsMock)
   })
 })
-

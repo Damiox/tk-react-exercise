@@ -3,10 +3,19 @@ import { MemoryRouter, Route } from 'react-router-dom'
 import { render, waitFor, fireEvent } from '@testing-library/react'
 import RecipeCreate from "./RecipeCreate";
 import { createRecipe } from '../../data/api'
-import {Ingredient} from "../../data/types";
 
 jest.mock('../../data/api')
 const mockedCreateRecipe = createRecipe as typeof createRecipe & jest.Mock
+
+const setupComponent = () => {
+  return render(
+    <MemoryRouter initialEntries={[`/create`]}>
+      <Route path='/create'>
+        <RecipeCreate />
+      </Route>
+    </MemoryRouter>
+  )
+}
 
 describe('<RecipeCreate>', () => {
   beforeEach(() => {
@@ -15,13 +24,7 @@ describe('<RecipeCreate>', () => {
   })
 
   it('loads empty fields at the beginning', async () => {
-    const { container } = render(
-      <MemoryRouter initialEntries={[`/create`]}>
-        <Route path='/create'>
-          <RecipeCreate />
-        </Route>
-      </MemoryRouter>
-    )
+    const { container } = setupComponent()
 
     const nameHtml = container.querySelector('.recipe-name') as HTMLInputElement
     const descHtml = container.querySelector('.recipe-desc') as HTMLTextAreaElement
@@ -38,13 +41,7 @@ describe('<RecipeCreate>', () => {
       ingredients: [{ name: 'ingredient1'}]
     }
 
-    const { container } = render(
-      <MemoryRouter initialEntries={[`/create`]}>
-        <Route path='/create'>
-          <RecipeCreate />
-        </Route>
-      </MemoryRouter>
-    )
+    const { container } = setupComponent()
 
     const nameHtml = container.querySelector('.recipe-name') as HTMLInputElement
     const descHtml = container.querySelector('.recipe-desc') as HTMLTextAreaElement
@@ -65,13 +62,7 @@ describe('<RecipeCreate>', () => {
   })
 
   it('can cancel the recipe creation', async () => {
-    const { container } = render(
-      <MemoryRouter initialEntries={[`/create`]}>
-        <Route path='/create'>
-          <RecipeCreate />
-        </Route>
-      </MemoryRouter>
-    )
+    const { container } = setupComponent()
 
     const buttonHtml = container.querySelector('.recipe-cancel') as HTMLButtonElement
     fireEvent.click(buttonHtml)

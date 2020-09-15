@@ -13,8 +13,8 @@ describe('<RecipeSearch>', () => {
 
     const { container } = render(<RecipeSearch onRecipesFiltered={onRecipesFiltered}/>)
 
-    const searchInput = container.querySelector('input[type=text]')
-    expect(searchInput!.textContent).toEqual('')
+    const searchInput = container.querySelector('.recipe-search') as HTMLInputElement
+    expect(searchInput.textContent).toEqual('')
   })
 
   it('tries to search', () => {
@@ -22,16 +22,15 @@ describe('<RecipeSearch>', () => {
 
     const { container } = render(<RecipeSearch onRecipesFiltered={onRecipesFiltered}/>)
 
-    const searchInput = container.querySelector('input[type=text]') as HTMLInputElement
+    const searchInput = container.querySelector('.recipe-search') as HTMLInputElement
     const testValue = 'Some Prefix'
     fireEvent.change(searchInput, { target: { value: testValue } })
     expect(searchInput.value).toEqual(testValue)
     expect(onRecipesFiltered).not.toHaveBeenCalled()
 
     // clicks to search now
-    const searchButton = container.querySelector('button') as HTMLButtonElement
+    const searchButton = container.querySelector('.recipe-search-btn') as HTMLButtonElement
     fireEvent.click(searchButton)
     expect(onRecipesFiltered).toBeCalledWith(testValue)
   })
 })
-
